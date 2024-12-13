@@ -17,9 +17,7 @@ export const getMovies = async (endpoint: MovieEndpoint) => {
 	const url = `${protocol}://${host}/api/movies/${endpoints.MOVIE_LISTS[endpoint]}`;
 
 	try {
-		const response = await fetch(url, {
-			headers: await headers(),
-		});
+		const response = await fetch(url);
 
 		if (!response.ok) {
 			let errorMessage: MovieError = {
