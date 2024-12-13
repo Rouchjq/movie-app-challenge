@@ -16,6 +16,7 @@ export const getMovies = async (endpoint: MovieEndpoint) => {
 
 	const url = `${protocol}://${host}/api/movies/${endpoints.MOVIE_LISTS[endpoint]}`;
 
+	console.log('🚀 ~ getMovies ~ url:', url);
 	try {
 		const response = await fetch(url);
 
