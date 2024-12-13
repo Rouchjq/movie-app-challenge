@@ -1,13 +1,13 @@
 import { DEFAULT_PARAMS, tmdbApi } from '@/lib/api/tmdb';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
-	request: Request,
-	{ params }: { params: { category: string } },
+	request: NextRequest,
+	{ params }: { params: Promise<{ category: string }> },
 ) {
 	try {
 		const { category } = await params;
-		const { searchParams } = new URL(request.url);
+		const { searchParams } = request.nextUrl;
 
 		const queryParams = {
 			...DEFAULT_PARAMS,
