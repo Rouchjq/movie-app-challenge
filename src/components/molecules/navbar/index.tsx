@@ -14,10 +14,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/atoms/avatar';
 import { Typography } from '@/components/atoms/typography';
 import { Button } from '@/components/atoms/button';
+import { AuthDialog } from './auth-dialog';
 import { MobileMenu } from './mobile-menu';
 
 // hooks
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
 import { useTheme } from 'next-themes';
 
 // libs
@@ -31,13 +33,16 @@ import { LogOut, Moon, Sun } from 'lucide-react';
 import classes from './style.module.css';
 
 // types
-import type { FC } from 'react';
+import { useState, type FC } from 'react';
 
 export const Navbar: FC = () => {
 	const pathname = usePathname();
 	const { setTheme, theme } = useTheme();
+	const [isAuthOpen, setIsAuthOpen] = useState(false);
+	const { logoutUser, isAuthenticated, user } = useAuth();
 	const handleLogout = () => {
 		console.log('logout');
+		logoutUser();
 	};
 
 	const handleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -80,34 +85,37 @@ export const Navbar: FC = () => {
 					<Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
 					<Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
 				</Button>
-				<DropdownMenu>
-					<DropdownMenuTrigger className='flex items-center gap-2'>
-						<Avatar>
-							<AvatarImage
-								src='/assets/images/login/monkey-22.webp' // todo: Borrar
-								alt='profilePicture'
-							/>
-							<AvatarFallback>CN</AvatarFallback>
-						</Avatar>
-						<div>
-							<Typography as='span' weight='semibold'>
-								username
-							</Typography>
-						</div>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent side='bottom' className='w-56 bg-muted '>
-						<DropdownMenuItem onClick={handleLogout}>
-							<LogOut />
-							<span>Log out</span>
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				{isAuthenticated && user ? (
+					<DropdownMenu>
+						<DropdownMenuTrigger className='flex items-center gap-2'>
+							<Avatar>
+								<AvatarImage src='' alt='profilePicture' />
+								<AvatarFallback>{user.name}</AvatarFallback>
+							</Avatar>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent side='bottom' className='w-56 bg-muted '>
+							<DropdownMenuItem onClick={handleLogout}>
+								<LogOut />
+								<span>Log out</span>
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				) : (
+					<Button variant='outline' size='sm' onClick={() => setIsAuthOpen(true)}>
+						Sign in
+					</Button>
+				)}
 			</div>
 			<MobileMenu
-				handleLogout={handleLogout}
+				user={user}
 				pathname={pathname}
 				handleTheme={handleTheme}
+				handleLogout={handleLogout}
+				setIsAuthOpen={setIsAuthOpen}
+				isAuthenticated={isAuthenticated}
 			/>
+
+			<AuthDialog isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
 		</nav>
 	);
 };

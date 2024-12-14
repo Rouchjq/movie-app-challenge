@@ -16,12 +16,14 @@ import { getImageUrl } from '@/lib/api/tmdb';
 // types
 import type { MovieType } from '@/types/models/movie';
 import type { FC } from 'react';
+import { useFavorites } from '@/hooks/use-favorites';
 
 type HeroMovieProps = {
 	movie: MovieType;
 };
 
 export const HeroMovie: FC<HeroMovieProps> = ({ movie }) => {
+	const { isFavorite, toggleMovieFavorite } = useFavorites();
 	const backdropUrl = getImageUrl(movie.backdrop_path, 'backdrop', 'original');
 
 	return (
@@ -46,10 +48,13 @@ export const HeroMovie: FC<HeroMovieProps> = ({ movie }) => {
 					</div>
 
 					<div className='flex items-center gap-4'>
-						<Heart
-							size={30}
-							className='bg-transparent hover:bg-transparent rounded-full hover:scale-110 transition-transform'
-						/>
+						<div role='button' onClick={() => toggleMovieFavorite(movie.id)}>
+							<Heart
+								size={30}
+								fill={isFavorite(movie.id) ? 'white' : 'transparent'}
+								className='bg-transparent hover:bg-transparent rounded-full hover:scale-110 transition-transform'
+							/>
+						</div>
 
 						<div className='bg-black/50 rounded-full px-2 py-1'>
 							<div className='flex items-center space-x-1'>

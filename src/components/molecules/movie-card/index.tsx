@@ -1,7 +1,14 @@
 'use client';
+
 // main tools
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import dayjs from 'dayjs';
+
+// components
+import { Typography } from '@/components/atoms/typography';
+import { useFavorites } from '@/hooks/use-favorites';
+import { Button } from '@/components/atoms/button';
 
 // lib
 import { getImageUrl } from '@/lib/api/tmdb';
@@ -13,14 +20,15 @@ import { Heart, Star, Calendar } from 'lucide-react';
 // types
 import type { MovieType } from '@/types/models/movie';
 import type { FC } from 'react';
-import { Button } from '@/components/atoms/button';
-import { Typography } from '@/components/atoms/typography';
 
 type MovieCardProps = {
 	movie: MovieType;
 };
 
 export const MovieCard: FC<MovieCardProps> = ({ movie }) => {
+	const { push } = useRouter();
+	const { isFavorite, toggleMovieFavorite } = useFavorites();
+
 	return (
 		<div className='relative group w-[280px]'>
 			<div className='relative overflow-hidden rounded-lg bg-gray-800'>
@@ -47,6 +55,20 @@ export const MovieCard: FC<MovieCardProps> = ({ movie }) => {
 									{movie.vote_average.toFixed(1)}
 								</span>
 							</div>
+							<div>
+								<Button
+									size='sm'
+									onClick={() => push(`/movie/${movie.id}`)}
+									className={cn(
+										' rounded-full transform transition-all duration-300',
+										'bg-black/50 hover:bg-black/70',
+										'opacity-0 group-hover:opacity-100',
+										'hover:scale-110 text-white font-semibold',
+									)}
+								>
+									More Details
+								</Button>
+							</div>
 							<div className='flex items-center space-x-1'>
 								<Calendar className='w-4 h-4 text-gray-400' />
 								<span className='text-sm text-gray-400'>
@@ -59,13 +81,17 @@ export const MovieCard: FC<MovieCardProps> = ({ movie }) => {
 							{movie.title}
 						</Typography>
 
-						<p className='text-sm text-gray-300 line-clamp-2'>{movie.overview}</p>
+						<div>
+							<Typography size='sm' className='text-gray-300 line-clamp-2'>
+								{movie.overview}
+							</Typography>
+						</div>
 					</div>
 				</div>
 
 				<Button
 					size='icon'
-					// onClick={() => onAddToFavorites?.(movie)}
+					onClick={() => toggleMovieFavorite(movie.id)}
 					className={cn(
 						'absolute top-3 right-3 p-0 rounded-full',
 						'transform transition-all duration-300',
@@ -74,7 +100,10 @@ export const MovieCard: FC<MovieCardProps> = ({ movie }) => {
 						'hover:scale-110',
 					)}
 				>
-					<Heart className='w-5 h-5 text-white' />
+					<Heart
+						fill={isFavorite(movie.id) ? 'white' : 'transparent'}
+						className='w-5 h-5 text-white'
+					/>
 				</Button>
 
 				<div className='absolute top-3 left-3 bg-black/50 rounded-full px-2 py-1'>

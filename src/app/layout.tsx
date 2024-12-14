@@ -4,6 +4,8 @@ import localFont from 'next/font/local';
 import { Toaster } from '@/components/atoms/sonner';
 import { Navbar } from '@/components/molecules/navbar';
 import { ThemeProvider } from '@/providers/theme-provider';
+import { AuthProvider } from '@/context/auth/provider';
+import { FavoritesProvider } from '@/context/favorite-movie/provider';
 
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
@@ -31,11 +33,15 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-muted`}
 			>
-				<ThemeProvider enableSystem attribute='class' defaultTheme='system'>
-					<Navbar />
-					{children}
-					<Toaster position='top-right' richColors />
-				</ThemeProvider>
+				<AuthProvider>
+					<FavoritesProvider>
+						<ThemeProvider enableSystem attribute='class' defaultTheme='system'>
+							<Navbar />
+							{children}
+							<Toaster position='top-right' richColors />
+						</ThemeProvider>
+					</FavoritesProvider>
+				</AuthProvider>
 			</body>
 		</html>
 	);

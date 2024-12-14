@@ -26,17 +26,24 @@ import classes from './style.module.css';
 // types
 import type { FC } from 'react';
 import { routes } from './utils';
+import { UserType } from '@/types/models/auth';
 
 type MobileMenuProps = {
 	pathname: string;
+	user: UserType | null;
 	handleTheme: () => void;
 	handleLogout: () => void;
+	isAuthenticated: boolean;
+	setIsAuthOpen: (value: boolean) => void;
 };
 
 export const MobileMenu: FC<MobileMenuProps> = ({
-	handleLogout,
+	user,
 	pathname,
 	handleTheme,
+	handleLogout,
+	setIsAuthOpen,
+	isAuthenticated,
 }) => {
 	return (
 		<Sheet>
@@ -53,28 +60,26 @@ export const MobileMenu: FC<MobileMenuProps> = ({
 				<DialogTitle className='hidden'>menu mobile</DialogTitle>
 				<div>
 					<div className='mb-5'>
-						<DropdownMenu>
-							<DropdownMenuTrigger className='flex items-center justify-center gap-2  w-full'>
-								<Avatar>
-									<AvatarImage
-										src='/assets/images/login/monkey-22.webp'
-										alt='profilePicture'
-									/>
-									<AvatarFallback>CN</AvatarFallback>
-								</Avatar>
-								<div>
-									<Typography as='span' weight='semibold'>
-										username
-									</Typography>
-								</div>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent side='bottom' className='w-56 bg-background'>
-								<DropdownMenuItem onClick={handleLogout}>
-									<LogOut />
-									<span>Log out</span>
-								</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
+						{isAuthenticated && user ? (
+							<DropdownMenu>
+								<DropdownMenuTrigger className='flex items-center justify-center gap-2  w-full'>
+									<Avatar>
+										<AvatarImage src='' alt='profilePicture' />
+										<AvatarFallback>{user.name}</AvatarFallback>
+									</Avatar>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent side='bottom' className='w-56 bg-background'>
+									<DropdownMenuItem onClick={handleLogout}>
+										<LogOut />
+										<span>Log out</span>
+									</DropdownMenuItem>
+								</DropdownMenuContent>
+							</DropdownMenu>
+						) : (
+							<Button variant='outline' size='sm' onClick={() => setIsAuthOpen(true)}>
+								Sign in
+							</Button>
+						)}
 					</div>
 
 					<div className='grid w-full gap-3 mb-5 '>
