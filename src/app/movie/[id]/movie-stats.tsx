@@ -77,7 +77,7 @@ export const MovieStats: FC<MovieStatsProps> = ({ movie }) => {
 									<div className='relative h-20 mb-2'>
 										<Image
 											fill
-											src={getImageUrl(company.logo_path, 'poster', 'w185')!}
+											src={getImageUrl(company.logo_path, 'poster', 'w500')!}
 											alt={company.name}
 											className='object-contain'
 										/>
