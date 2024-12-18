@@ -1,15 +1,20 @@
+// main tools
 import { Suspense } from 'react';
+
+// componentssearchParams
 import { MovieSectionSkeleton } from '../(home)/movie-section/skeleton';
 import { ErrorMessage } from '@/components/error-message';
-import { searchMovies } from '@/lib/api/movies';
 import { SearchResults } from './search-results';
+
+// lib
+import { searchMovies } from '@/lib/api/movies';
 
 export default async function SearchPage({
 	searchParams,
 }: {
-	searchParams: { query?: string; page?: string };
+	searchParams: Promise<{ query?: string; page?: string }>;
 }) {
-	const { query, page } = searchParams;
+	const { query, page } = await searchParams;
 
 	if (!query) {
 		return (

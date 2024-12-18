@@ -15,16 +15,14 @@ import { getMovieById } from '@/lib/api/movies';
 import type { Metadata } from 'next';
 
 type MovieDetailPageProps = {
-	params: {
-		id: string;
-	};
+	params: Promise<{ id: string }>;
 };
 
 export default async function MovieDetailPage({
 	params,
 }: MovieDetailPageProps) {
 	try {
-		const id = await params.id;
+		const { id } = await params;
 		const movie = await getMovieById(id);
 		console.log('🚀 ~ movie:', movie);
 
@@ -51,7 +49,7 @@ export async function generateMetadata({
 	params,
 }: MovieDetailPageProps): Promise<Metadata> {
 	try {
-		const id = await params.id;
+		const { id } = await params;
 		const movie = await getMovieById(id);
 
 		return {
