@@ -34,6 +34,7 @@ import classes from './style.module.css';
 
 // types
 import { useState, type FC } from 'react';
+import { SearchBar } from '../search-bar';
 
 export const Navbar: FC = () => {
 	const pathname = usePathname();
@@ -77,6 +78,7 @@ export const Navbar: FC = () => {
 							</Typography>
 						</Link>
 					))}
+					<SearchBar />	
 				</div>
 			</div>
 

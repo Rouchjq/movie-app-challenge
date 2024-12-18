@@ -27,6 +27,7 @@ import classes from './style.module.css';
 import type { FC } from 'react';
 import { routes } from './utils';
 import { UserType } from '@/types/models/auth';
+import { SearchBar } from '../search-bar';
 
 type MobileMenuProps = {
 	pathname: string;
@@ -104,6 +105,7 @@ export const MobileMenu: FC<MobileMenuProps> = ({
 							</Link>
 						))}
 					</div>
+					<SearchBar />
 				</div>
 
 				<div className='flex items-center justify-center gap-2'>

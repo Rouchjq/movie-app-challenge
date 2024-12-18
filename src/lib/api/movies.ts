@@ -9,14 +9,17 @@ interface MovieError {
 	statusCode?: number;
 }
 
-export const getMovies = async (endpoint: MovieEndpoint) => {
+const builBaseUrl = async () => {
 	const headersList = await headers();
 	const host = headersList.get('host') || 'localhost:3000';
 	const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+	return `${protocol}://${host}`;
+};
 
-	const url = `${protocol}://${host}/api/movies/${endpoints.MOVIE_LISTS[endpoint]}`;
-
-	console.log('🚀 ~ getMovies ~ url:', url);
+export const getMovies = async (endpoint: MovieEndpoint, params?: string) => {
+	const baseUrl = await builBaseUrl();
+	let url = `${baseUrl}/api/movies/${endpoints.MOVIE_LISTS[endpoint]}`;
+	if (params) url += `?${params}`;
 	try {
 		const response = await fetch(url);
 
@@ -66,5 +69,68 @@ export const getMovies = async (endpoint: MovieEndpoint) => {
 
 		console.log('🚀 ~ getMovies ~ error:', error);
 		throw new MovieFetchError('Failed to fetch movies', 500);
+	}
+};
+
+export const getMovieById = async (id: string) => {
+	const baseUrl = await builBaseUrl();
+
+	const url = `${baseUrl}/api/movie/${id}`;
+
+	try {
+		const response = await fetch(url);
+
+		if (!response.ok) {
+			let errorMessage: MovieError = {
+				message: 'An unexpected error occurred',
+				statusCode: 500,
+			};
+
+			switch (response.status) {
+				case 404:
+					errorMessage = {
+						message: 'Movie not found',
+						statusCode: 404,
+					};
+					break;
+				case 401:
+					errorMessage = {
+						message: 'Authentication failed',
+						statusCode: 401,
+					};
+					break;
+				default:
+					const errorData = await response.json().catch(() => ({}));
+					errorMessage = {
+						message: errorData.message || 'Failed to fetch movie',
+						statusCode: response.status,
+					};
+			}
+
+			throw new MovieFetchError(errorMessage.message, errorMessage.statusCode);
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		if (error instanceof MovieFetchError) {
+			throw error;
+		}
+
+		console.error('🚀 ~ getMovieById ~ error:', error);
+		throw new MovieFetchError('Failed to fetch movie', 500);
+	}
+};
+
+export const searchMovies = async (query: string, page?: string) => {
+	const baseUrl = await builBaseUrl();
+	const url = `${baseUrl}/api/movies/search?query=${query}&page=${page || 1}`;
+	try {
+		const response = await fetch(url);
+		if (!response.ok) throw new Error('Failed to fetch search results');
+		return response.json();
+	} catch (error) {
+		console.error('Error searching movies:', error);
+		throw error;
 	}
 };

@@ -1,11 +1,16 @@
 'use client';
 
 // main tools
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 // components
 import { Typography } from '@/components/atoms/typography';
+import { Button } from '@/components/atoms/button';
 import { Heart, Star } from 'lucide-react';
+
+// hooks
+import { useFavorites } from '@/hooks/use-favorites';
 
 // utils
 import { cn } from '@/lib/utils';
@@ -16,13 +21,13 @@ import { getImageUrl } from '@/lib/api/tmdb';
 // types
 import type { MovieType } from '@/types/models/movie';
 import type { FC } from 'react';
-import { useFavorites } from '@/hooks/use-favorites';
 
 type HeroMovieProps = {
 	movie: MovieType;
 };
 
 export const HeroMovie: FC<HeroMovieProps> = ({ movie }) => {
+	const { push } = useRouter();
 	const { isFavorite, toggleMovieFavorite } = useFavorites();
 	const backdropUrl = getImageUrl(movie.backdrop_path, 'backdrop', 'original');
 
@@ -37,7 +42,7 @@ export const HeroMovie: FC<HeroMovieProps> = ({ movie }) => {
 					className={cn('object-cover transition-opacity duration-500')}
 				/>
 
-				<div className='absolute bottom-0 w-full p-8 flex justify-between items-end'>
+				<div className='absolute bottom-0 w-full p-8 flex justify-between items-end mt-5 bg-gradient-to-t from-black/80 via-black/60 to-transparent'>
 					<div className='max-w-2xl'>
 						<Typography as='h2' variant='h1' weight='bold' className='mb-4'>
 							{movie.title}
@@ -54,6 +59,20 @@ export const HeroMovie: FC<HeroMovieProps> = ({ movie }) => {
 								fill={isFavorite(movie.id) ? 'white' : 'transparent'}
 								className='bg-transparent hover:bg-transparent rounded-full hover:scale-110 transition-transform'
 							/>
+						</div>
+
+						<div>
+							<Button
+								size='sm'
+								onClick={() => push(`/movie/${movie.id}`)}
+								className={cn(
+									' rounded-full transform transition-all duration-300',
+									'bg-black/50 hover:bg-black/70',
+									'hover:scale-110 text-white font-semibold',
+								)}
+							>
+								More Details
+							</Button>
 						</div>
 
 						<div className='bg-black/50 rounded-full px-2 py-1'>

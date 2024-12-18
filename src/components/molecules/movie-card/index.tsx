@@ -49,30 +49,23 @@ export const MovieCard: FC<MovieCardProps> = ({ movie }) => {
 				>
 					<div className='absolute bottom-0 p-4 w-full'>
 						<div className='flex items-center justify-between mb-2'>
-							<div className='flex items-center space-x-1'>
-								<Star className='w-4 h-4 text-yellow-400' />
-								<span className='text-sm text-white'>
-									{movie.vote_average.toFixed(1)}
-								</span>
-							</div>
-							<div>
-								<Button
-									size='sm'
-									onClick={() => push(`/movie/${movie.id}`)}
-									className={cn(
-										' rounded-full transform transition-all duration-300',
-										'bg-black/50 hover:bg-black/70',
-										'opacity-0 group-hover:opacity-100',
-										'hover:scale-110 text-white font-semibold',
-									)}
-								>
-									More Details
-								</Button>
-							</div>
+							<Button
+								size='sm'
+								onClick={() => push(`/movie/${movie.id}`)}
+								className={cn(
+									' rounded-full transform transition-all duration-300',
+									'bg-black/50 hover:bg-black/70',
+									'opacity-0 group-hover:opacity-100',
+									'hover:scale-110 text-white font-semibold',
+								)}
+							>
+								More Details
+							</Button>
+
 							<div className='flex items-center space-x-1'>
 								<Calendar className='w-4 h-4 text-gray-400' />
 								<span className='text-sm text-gray-400'>
-									{dayjs(movie.release_date).format('yyyy')}
+									{dayjs(movie.release_date).format('YYYY')}
 								</span>
 							</div>
 						</div>
