@@ -35,32 +35,32 @@ export const MovieStats: FC<MovieStatsProps> = ({ movie }) => {
 			</div>
 
 			<Row className='w-full mb-12' justify='center' gap={4}>
-				<Card className='bg-white/10 backdrop-blur-sm border border-yellow-500 w-full max-w-xs'>
+				<Card className='bg-foreground/10 backdrop-blur-sm border border-yellow-500 w-full max-w-xs'>
 					<CardContent className='p-4'>
-						<Typography className='text-gray-400 text-sm mb-1 text-center'>
+						<Typography className='text-yellow-600 text-md mb-1 text-center'>
 							Status
 						</Typography>
-						<Typography className='text-white text-center'>{movie.status}</Typography>
+						<Typography className=' text-center'>{movie.status}</Typography>
 					</CardContent>
 				</Card>
 
-				<Card className='bg-white/10 backdrop-blur-sm border border-yellow-500 w-full max-w-xs'>
+				<Card className='bg-foreground/10 backdrop-blur-sm border border-yellow-500 w-full max-w-xs'>
 					<CardContent className='p-4'>
-						<Typography className='text-gray-400 text-sm mb-1 text-center'>
+						<Typography className='text-yellow-600 text-md mb-1 text-center'>
 							Budget
 						</Typography>
-						<Typography className='text-white text-center'>
+						<Typography className=' text-center'>
 							${movie.budget.toLocaleString()}
 						</Typography>
 					</CardContent>
 				</Card>
 
-				<Card className='bg-white/10 backdrop-blur-sm border border-yellow-500 w-full max-w-xs'>
+				<Card className='bg-foreground/10 backdrop-blur-sm border border-yellow-500 w-full max-w-xs'>
 					<CardContent className='p-4'>
-						<Typography className='text-gray-400 text-sm mb-1 text-center'>
+						<Typography className='text-yellow-600 text-md mb-1 text-center'>
 							Revenue
 						</Typography>
-						<Typography className='text-white text-center'>
+						<Typography className='text-center'>
 							${movie.revenue.toLocaleString()}
 						</Typography>
 					</CardContent>
@@ -72,7 +72,7 @@ export const MovieStats: FC<MovieStatsProps> = ({ movie }) => {
 					.filter((company) => company.logo_path)
 					.map((company) => (
 						<Col key={company.id} xs={12} sm={12} md={8} lg={6} className='p-5'>
-							<Card className='bg-yellow-400 border-yellow-500'>
+							<Card className='bg-yellow-500 border-yellow-600'>
 								<CardContent className='p-4'>
 									<div className='relative h-20 mb-2'>
 										<Image

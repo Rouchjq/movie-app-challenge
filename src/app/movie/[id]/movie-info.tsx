@@ -43,7 +43,7 @@ export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
 				</div>
 				<div className='flex-1'>
 					<div className='mb-4'>
-						<Typography as='h1' variant='h1' weight='bold'>
+						<Typography as='h1' variant='h1' weight='bold' className='text-white'>
 							{movie.title}
 						</Typography>
 						<Typography as='span' variant='lead' className='text-gray-400 italic'>
@@ -72,15 +72,19 @@ export const MovieInfo: FC<MovieInfoProps> = ({ movie }) => {
 						</div>
 					</div>
 
-					<Typography as='span' variant='lead' className='text-gray-300 mb-6'>
-						{movie.overview}
-					</Typography>
+					<div className='mb-6'>
+						<Typography as='span' variant='lead'>
+							{movie.overview}
+						</Typography>
+					</div>
 
-					<div className='flex flex-wrap gap-4'>
+					<div>
 						<div>
-							<Typography weight='semibold' className='text-gray-400'>
+							<Typography weight='semibold' className=''>
 								Release Date
 							</Typography>
+						</div>
+						<div>
 							<Typography>
 								{dayjs(movie.release_date).format('MMMM D, YYYY')}
 							</Typography>

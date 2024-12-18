@@ -36,8 +36,9 @@ Before you begin, ensure you have:
 Create a `.env` file in the root directory with:
 
 ```env
+TMDB_TOKEN=your_tmdb_api_key_here
+TMDB_API_URL=https://api.themoviedb.org/3
 NEXT_PUBLIC_TMDB_IMAGE_BASE_URL=https://image.tmdb.org/t/p
-NEXT_PUBLIC_TMDB_API_KEY=your_api_key_here
 ```
 
 ## Installation

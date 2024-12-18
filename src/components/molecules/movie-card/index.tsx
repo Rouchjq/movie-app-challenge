@@ -70,7 +70,11 @@ export const MovieCard: FC<MovieCardProps> = ({ movie }) => {
 							</div>
 						</div>
 
-						<Typography variant='h3' weight='semibold' className='leading-tight mb-2'>
+						<Typography
+							variant='h3'
+							weight='semibold'
+							className='leading-tight mb-2 text-white'
+						>
 							{movie.title}
 						</Typography>
 

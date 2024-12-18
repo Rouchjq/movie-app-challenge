@@ -49,7 +49,7 @@ export const Navbar: FC = () => {
 	const handleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
 	return (
-		<nav className='flex items-center justify-between px-10 bg-background h-[10vh]'>
+		<nav className='flex items-center justify-between px-10 bg-black h-[10vh]'>
 			<div className='flex items-center gap-10'>
 				<div>
 					<Link href='/'>
@@ -73,12 +73,12 @@ export const Navbar: FC = () => {
 								pathname === route.url && classes.currentPath,
 							)}
 						>
-							<Typography as='span' weight='semibold' textColor='card' size='sm'>
+							<Typography as='span' weight='semibold' size='sm' className='text-white'>
 								{route.name}
 							</Typography>
 						</Link>
 					))}
-					<SearchBar />	
+					<SearchBar />
 				</div>
 			</div>
 

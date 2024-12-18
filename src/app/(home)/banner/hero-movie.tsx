@@ -44,7 +44,12 @@ export const HeroMovie: FC<HeroMovieProps> = ({ movie }) => {
 
 				<div className='absolute bottom-0 w-full p-8 flex justify-between items-end mt-5 bg-gradient-to-t from-black/80 via-black/60 to-transparent'>
 					<div className='max-w-2xl'>
-						<Typography as='h2' variant='h1' weight='bold' className='mb-4'>
+						<Typography
+							as='h2'
+							variant='h1'
+							weight='bold'
+							className='mb-4 text-white'
+						>
 							{movie.title}
 						</Typography>
 						<Typography className='text-white/80 line-clamp-3'>
@@ -56,8 +61,9 @@ export const HeroMovie: FC<HeroMovieProps> = ({ movie }) => {
 						<div role='button' onClick={() => toggleMovieFavorite(movie.id)}>
 							<Heart
 								size={30}
+								color='white'
 								fill={isFavorite(movie.id) ? 'white' : 'transparent'}
-								className='bg-transparent hover:bg-transparent rounded-full hover:scale-110 transition-transform'
+								className='rounded-full hover:scale-110 transition-transform'
 							/>
 						</div>
 
@@ -79,7 +85,7 @@ export const HeroMovie: FC<HeroMovieProps> = ({ movie }) => {
 							<div className='flex items-center space-x-1'>
 								<Star className='w-6 h-6 text-yellow-400' />
 								<div>
-									<Typography as='span' size='lg'>
+									<Typography as='span' size='lg' className='text-white'>
 										{movie.vote_average.toFixed(1)}
 									</Typography>
 								</div>

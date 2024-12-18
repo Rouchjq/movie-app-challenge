@@ -31,7 +31,7 @@ export default async function MovieDetailPage({
 		}
 
 		return (
-			<main className='min-h-screen bg-black text-white'>
+			<main className='min-h-screen bg-muted'>
 				<Suspense fallback={<MovieDetailSkeleton />}>
 					<MovieHero movie={movie} />
 					<MovieInfo movie={movie} />
